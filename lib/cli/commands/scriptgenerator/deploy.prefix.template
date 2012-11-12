@@ -21,10 +21,18 @@ call npm install https://github.com/projectkudu/KuduSync/tarball/master --produc
 :: Setup
 :: -----
 
+setlocal
+
 SET ARTIFACTS=%~dp0%artifacts
 
 IF NOT DEFINED DEPLOYMENT_TEMP (
-  SET DEPLOYMENT_TEMP=%temp%\deployTemp
+  SET DEPLOYMENT_TEMP=%temp%\___deployTemp%random%
+  SET CLEAN_LOCAL_DEPLOYMENT_TEMP=true
+)
+
+IF DEFINED CLEAN_LOCAL_DEPLOYMENT_TEMP (
+  IF EXIST "%DEPLOYMENT_TEMP%" rd /s /q "%DEPLOYMENT_TEMP%"
+  mkdir "%DEPLOYMENT_TEMP%"
 )
 
 IF NOT DEFINED DEPLOYMENT_SOURCE (
@@ -40,10 +48,10 @@ IF NOT DEFINED NEXT_MANIFEST_PATH (
 )
 
 IF NOT DEFINED MSBUILD_PATH (
-  SET MSBUILD_PATH=%WINDIR%\Microsoft.NET\Framework\v4.0.3031
+  SET MSBUILD_PATH=%WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe
 )
 
 IF NOT DEFINED KUDU_SYNC_COMMAND (
-	SET KUDU_SYNC_COMMAND=node node_modules\kuduSync\bin\kuduSync.js
+	SET KUDU_SYNC_COMMAND=node node_modules\kuduSync\bin\kuduSync
 )
 
