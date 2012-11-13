@@ -1,3 +1,5 @@
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: Deployment
 :: ----------
 
@@ -7,7 +9,9 @@ echo Handling .NET Web Application deployment.
 %MSBUILD_PATH% {MSBuildArguments}
 IF %ERRORLEVEL% NEQ 0 goto error
 
-:: 2. KuduSync [From] [To] [Manifest]
+:: 2. KuduSync
 echo Kudu Sync from "%DEPLOYMENT_TEMP%" to "%DEPLOYMENT_TARGET%"
 %KUDU_SYNC_COMMAND% -q -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%"
 IF %ERRORLEVEL% NEQ 0 goto error
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
